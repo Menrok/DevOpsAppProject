@@ -26,5 +26,13 @@ jobs:
     - name: Build solution
       run: dotnet build SklepDevOps.sln --no-restore --configuration Release
 
+    - name: Use secrets from GitHub
+      run: |
+        echo "Environment: $APP_ENV"
+        echo "Secret token length: ${#SECRET_TOKEN}"
+      env:
+        SECRET_TOKEN: ${{ secrets.SECRET_TOKEN }}
+        APP_ENV: ${{ secrets.APP_ENV }}
+
     - name: Run tests
       run: dotnet test SklepDevOps.sln --no-build --configuration Release

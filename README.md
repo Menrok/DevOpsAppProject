@@ -9,13 +9,23 @@ Continuous Integration oraz Continuous Deployment w środowisku Azure.
 - GitHub Projects
 - GitHub Actions
 - Azure App Service
+- .NET 9
 
 ## Uruchomienie lokalne
 Instrukcja uruchomienia aplikacji lokalnie zostanie dodana w kolejnym etapie.
 
 ## CI/CD
-- CI: automatyczny build i testy przy Pull Request
-- CD: automatyczne wdrożenie do Azure po merge do main
+- CI: automatyczny build i testy uruchamiane przy Pull Request do `main`
+- CI może być również uruchamiany ręcznie (`workflow_dispatch`)
+- CD: automatyczne wdrożenie aplikacji do Azure po merge do `main`
+
+## Bezpieczeństwo
+Wrażliwe dane konfiguracyjne nie są przechowywane w repozytorium.
+Sekrety aplikacji są zarządzane za pomocą GitHub Secrets
+i wykorzystywane w pipeline CI/CD.
 
 ## Struktura repozytorium
-Opis struktury repozytorium zostanie uzupełniony w kolejnych etapach.
+- `.github/workflows` – definicje pipeline CI/CD
+- `SklepAPI` – aplikacja webowa
+- `SklepAPI.Tests` – testy jednostkowe
+- `SklepDevOps.sln` – solution .NET

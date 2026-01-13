@@ -1,4 +1,4 @@
-# DevOps App Project
+# DevOpsAppProject
 
 ## Cel projektu
 Celem projektu jest stworzenie aplikacji webowej wraz z kompletnym procesem CI/CD
@@ -19,3 +19,18 @@ Commity oraz Pull Requesty są powiązane z Issue i zamykają je automatycznie.
 
 ## Status
 Backlog utworzony i podzielony na etapy.
+
+## Bezpieczeństwo
+Wrażliwe dane konfiguracyjne nie są przechowywane w repozytorium.
+Sekrety aplikacji są zarządzane za pomocą GitHub Secrets
+i wykorzystywane w pipeline CI.
+
+## Continuous Integration
+Pipeline CI uruchamia się automatycznie przy:
+- Pull Request do gałęzi main
+- Push do gałęzi main
+
+Proces CI obejmuje:
+- przywrócenie zależności
+- build aplikacji
+- uruchomienie testów jednostkowych
