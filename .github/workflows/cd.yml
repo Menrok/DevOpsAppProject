@@ -1,0 +1,35 @@
+name: CD
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '9.0.x'
+
+    - name: Restore dependencies
+      run: dotnet restore SklepDevOps.sln
+
+    - name: Build
+      run: dotnet build SklepDevOps.sln -c Release --no-restore
+
+    - name: Publish
+      run: dotnet publish SklepAPI/SklepAPI.csproj -c Release -o publish
+
+    - name: Deploy to Azure Web App
+      uses: azure/webapps-deploy@v3
+      with:
+        app-name: sklep-devops-app-mhdj
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+        package: publish
