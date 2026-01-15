@@ -2,9 +2,9 @@ name: CI
 
 on:
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   workflow_dispatch:
 
 jobs:
@@ -12,27 +12,30 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '9.0.x'
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "9.0.x"
 
-    - name: Restore dependencies
-      run: dotnet restore SklepDevOps.sln
+      - name: Restore dependencies
+        run: dotnet restore SklepDevOps.sln
 
-    - name: Build solution
-      run: dotnet build SklepDevOps.sln --no-restore --configuration Release
+      - name: Build solution
+        run: dotnet build SklepDevOps.sln --no-restore --configuration Release
 
-    - name: Use secrets from GitHub
-      run: |
-        echo "Environment: $APP_ENV"
-        echo "Secret token length: ${#SECRET_TOKEN}"
-      env:
-        SECRET_TOKEN: ${{ secrets.SECRET_TOKEN }}
-        APP_ENV: ${{ secrets.APP_ENV }}
+      - name: Use secrets from GitHub
+        run: |
+          echo "Environment: $APP_ENV"
+          echo "Secret token length: ${#SECRET_TOKEN}"
+        env:
+          SECRET_TOKEN: ${{ secrets.SECRET_TOKEN }}
+          APP_ENV: ${{ secrets.APP_ENV }}
 
-    - name: Run tests
-      run: dotnet test SklepDevOps.sln --no-build --configuration Release
+      - name: Run tests
+        run: dotnet test SklepDevOps.sln --no-build --configuration Release
+
+      - name: Verify Docker Build
+        run: docker build -t sklep-ci-test .
